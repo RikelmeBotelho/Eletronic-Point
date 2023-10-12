@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   version: {
     zIndex: 4,
-    color: 'gray',
+    color: '#151716',
     bottom: '3%',
     position: 'absolute',
   }

@@ -9,31 +9,31 @@ const styles = StyleSheet.create({
   profileImageContainer: {
     backgroundColor: 'orange',
     borderRadius: 100,
-    padding: 10,
-    marginBottom: '4%',
+    padding: 5,
     position: 'fixed',
+    marginBottom: 40
   },
   profileImage: {
-    width: '40%', 
+    height: 200,
+    width: 100, 
     aspectRatio: 1, 
     borderRadius: 100,
   },
   title: {
     fontSize: 24,
-    marginTop: -10,
-    marginBottom: 80, 
+    marginTop: -50,
+    marginBottom: 60, 
+    padding: 25,
   },
   button: {
     backgroundColor: 'orange',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    position: 'absolute',
-    bottom: '65%', 
+    padding: 12,
+    borderRadius: 8,
+    bottom: '6%', 
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
   },
   textBoxContainer: {
     width: '100',
@@ -41,17 +41,18 @@ const styles = StyleSheet.create({
     borderColor: 'orange',
     textAlign: 'center',
     height: 40,
-    borderRadius: 20,
-    paddingLeft: 10,
-    paddingTop: 6,
-    paddingRight: 13,
+    borderRadius: 30,
+    paddingLeft: 15,
+    paddingTop: 10,
+    paddingRight: 15,
     paddingBottom: 5,
     marginRight: 5,
-    borderWidth: 4,
+    borderWidth: 2,
   },
   disabledButton: {
     backgroundColor: 'gray',
   },
+  /*
   flexBoxContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
     flexDirection: 'row',
   },
+  */
   bottomButtonsContainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -73,8 +75,34 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 5,
     padding: 10,
-    backgroundColor: 'orange',
   },
+  
+  orangeBall: {
+    width: 500,
+    height: 500,
+    borderRadius: 500,
+    backgroundColor: 'orange',
+    left: '40%',
+    top: '70%',
+    zIndex: -1,
+    position: 'absolute',
+  },
+  secondBall: {
+    zIndex: 0,
+    backgroundColor: "#ff8624",
+    width: 500,
+    height: 500,
+    borderRadius: 500,
+    right: '20%',
+    top: '80%',
+    position: 'absolute',
+  },
+  version: {
+    zIndex: 4,
+    color: '#151716',
+    bottom: '5%',
+    position: 'absolute',
+  }
   
   });
 export default styles;

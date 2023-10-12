@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+const apiURL = "http://localhost:8080/funcionarios/2";
+
 const FuncionScreen = () => {
 
   const [fullName, setFullName] = useState('');
@@ -55,31 +57,31 @@ const FuncionScreen = () => {
       <ScrollView>
 
         <View style={styles.profileImageContainer}>
-          <Image
-            source={{
-              uri: 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png',
-            }}
+          <Image 
+            source={require('../assets/leticia.jpeg')}
             style={styles.profileImage}
           />
         </View>
 
 
         <View style={styles.textBoard}>
-          <Text style={styles.label}><Text style={styles.boldText}>                                  Dados Pessoais:</Text></Text>
+          <Text style={styles.label}><Text style={styles.boldText}>                                         Dados Pessoais</Text></Text>
           <TextInput
-            placeholder="Nome completo"
+            placeholder="   Nome"
             value={fullName}
             onChangeText={setFullName}
             style={styles.input}
+            editable={false}
           />
         </View>
 
         <View style={styles.textBoard}>
 
           <TextInput
-            placeholder="Email Pessoal"
+            placeholder="   nome@email.com"
             value={email}
             onChangeText={setEmail}
+            editable={false}
             style={styles.input}
           />
         </View>
@@ -87,7 +89,7 @@ const FuncionScreen = () => {
         <View style={styles.textBoard}>
 
           <TextInput
-            placeholder="CPF"
+            placeholder="   CPF"
             keyboardType='numeric'
             value={cpf}
             onChangeText={setCpf}
@@ -99,7 +101,7 @@ const FuncionScreen = () => {
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="DD/MM/AAAA"
+              placeholder="   DD/MM/AAAA"
               keyboardType='numeric'
               value={dob}
               onChangeText={setDob}
@@ -109,7 +111,7 @@ const FuncionScreen = () => {
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="(00) 00000-0000"
+              placeholder="   (00) 00000-0000"
               keyboardType='numeric'
               value={phoneNumber}
               onChangeText={setPhoneNumber}
@@ -121,7 +123,7 @@ const FuncionScreen = () => {
         <View style={styles.textBoard}>
 
           <TextInput
-            placeholder="Email"
+            placeholder="   Login"
             value={username}
             onChangeText={setUsername}
             style={styles.input}
@@ -132,7 +134,7 @@ const FuncionScreen = () => {
 
           <TextInput
             secureTextEntry={true}
-            placeholder="Digite sua senha"
+            placeholder="   ********"
             value={password}
             onChangeText={setPassword}
             style={styles.input}
@@ -140,9 +142,11 @@ const FuncionScreen = () => {
         </View>
 
         <View style={styles.textBoard}>
-          <Text style={styles.label}><Text style={styles.boldText}>                                     Empresa:</Text></Text>
+          <Text style={styles.label}>
+          <Text style={styles.boldText}>                                                    Empresa</Text>
+          </Text>
           <TextInput
-            placeholder="Empresa"
+            placeholder="   Empresa"
             value={Empresa}
             onChangeText={setEmpresa}
             style={styles.input}
@@ -151,7 +155,7 @@ const FuncionScreen = () => {
 
         <View style={styles.textBoard}>
           <TextInput
-            placeholder="Cargo"
+            placeholder="   Cargo"
             value={Cargo}
             onChangeText={setCargo}
             style={styles.input}
@@ -161,7 +165,7 @@ const FuncionScreen = () => {
 
         <View style={styles.textBoard}>
           <TextInput
-            placeholder="Setor"
+            placeholder="   Setor"
             value={Setor}
             onChangeText={setSetor}
             style={styles.input}
@@ -172,7 +176,7 @@ const FuncionScreen = () => {
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="Tipo"
+              placeholder="   Tipo"
               value={Tipo}
               onChangeText={setTipo}
               style={styles.input}
@@ -181,7 +185,7 @@ const FuncionScreen = () => {
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="Turno"
+              placeholder="   Turno"
               value={Turno}
               onChangeText={setTurno}
               style={styles.input}
@@ -194,7 +198,7 @@ const FuncionScreen = () => {
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="CH/D"
+              placeholder="   CH/D"
               value={CHD}
               onChangeText={setCHD}
               style={styles.input}
@@ -203,7 +207,7 @@ const FuncionScreen = () => {
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="CH/A"
+              placeholder="   CH/A"
               value={CHA}
               onChangeText={setCHA}
               style={styles.input}
@@ -253,20 +257,26 @@ const FuncionScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 15,
+    background: 'white',
     
   },
   profileImageContainer: {
-    flex: 1, 
     backgroundColor: 'orange',
-    borderRadius: 100,
-    marginBottom: '5%',
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    borderRadius: 300,
+    padding: 10,
+    position: 'fixed',
+    marginBottom: -10,
+    height: 220,
+    width: 220,
+    margin: 70,
+    top: -50
   },
   profileImage: {
-    width: '50%',
-    aspectRatio: 1,
+      height: 200,
+      width: 200, 
+      aspectRatio: 1, 
+      borderRadius: 100,
   },
   textBoard: {
     backgroundColor: '#f0f0f0',
@@ -298,16 +308,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
+    padding: 1,
+    margin: 5
   },
   button: {
     flex: 1,
     backgroundColor: 'orange',
-    borderRadius: 5,
-    padding: 7,
-    paddingLeft: 2,
+    borderRadius: 25,
+    padding: 10,
+    paddingLeft: 5,
     alignItems: 'center',
-    paddingTop: 10,
+    paddingTop: 13,
   },
   buttonText: {
     color: 'white',
@@ -316,11 +328,9 @@ const styles = StyleSheet.create({
   bottomButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '112%',
-    bottom: 10,
+    width: '100%',
+    bottom: -12,
     padding: 10,
-    backgroundColor: 'orange',
-    right: 20,
   
   },
 });

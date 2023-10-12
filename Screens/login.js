@@ -26,7 +26,7 @@ export default function Login() {
 
       <TextInput
         style={styles.TextEmail}
-        placeholder="Nome@empresa.com"
+        placeholder="Nome@empresa"
         value={nome}
         onChangeText={text => setNome(text)}
       />

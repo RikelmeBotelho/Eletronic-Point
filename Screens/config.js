@@ -2,14 +2,44 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../style/configuraçao';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function Config() {
     const navigation = useNavigation();
-    const [texto, setTexto] = useState('');
+    const [nome, setNome] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [email, setEmail] = useState('');
+    const [dtNasc, setDtNasc] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [apelido, setApelido] = useState('');
+    const [empresa, setEmpresa] = useState('');
+    const [setor, setSetor] = useState('');
+    const [tipo, setTipo] = useState('');
 
     const handleSalvar = () => {
+
+        //Reseta o texto inserido depois que aperta o botão
+        setNome("");
+        setCpf("");
+        setEmail("");
+        setDtNasc("");
+        setDtNasc("");
+        setTelefone("");
+        setApelido("");
+        setEmpresa("");
+        setSetor("");
+        setTipo("");
+
         // Enviar para um servidor ou armazenar localmente.
-        console.log('Texto inserido:', texto);
+        console.log('Nome:', nome);
+        console.log('CPF:', cpf)
+        console.log('Data de Nascimento: ', dtNasc);
+        console.log('Email:', email);
+        console.log('Telefone:', telefone);
+        console.log('Apelido:', apelido);
+        console.log('Empresa:', empresa);
+        console.log('Setor: ', setor);
+        console.log('Tipo', tipo);
     };
 
 
@@ -27,76 +57,80 @@ export default function Config() {
     };
 
     return (
-
-
+        
         <View style={styles.container}>
 
             <View style={styles.profileImageContainer}>
                 <Image
-                    source={{
-                        uri: 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png',
-                    }}
+                    source={require('../assets/leticia.jpeg')}
                     style={styles.profileImage}
                 />
             </View>
 
             <TextInput
                 style={styles.edit}
-                onChangeText={setTexto}
-                value={texto}
-                placeholder="Nome Sobrenome"
+                onChangeText={setNome}
+                value={nome}
+                placeholder="Nome"
             />
             <View style={styles.fixed1}>
-                <Text
+                <TextInput
                     style={styles.fixed}
-                    onChangeText={setTexto}
-                    value={texto}
-                    placeholder="Campo 1"
+                    onChangeText={setCpf}
+                    value={cpf}
+                    placeholder="XXX.XXX.XXX-XX"
+                    editable={false}
                 />
-                <Text
+                <TextInput
                     style={styles.fixed}
-                    onChangeText={setTexto}
-                    value={texto}
-                    placeholder="Campo 2"
+                    onChangeText={setDtNasc}
+                    value={dtNasc}
+                    placeholder="XX/XX/XXXX"
+                    editable={false}
                 />
             </View>
             <TextInput
                 style={styles.edit}
-                onChangeText={setTexto}
-                value={texto}
+                onChangeText={setEmail}
+                value={email}
                 placeholder="Nome@gmail.com"
             />
             <View style={styles.fixed1}>
                 <TextInput
                     style={styles.fixed}
-                    onChangeText={setTexto}
-                    value={texto}
+                    onChangeText={setTelefone}
+                    value={telefone}
                     placeholder="(00) 00000-0000"
                 />
-                <Text
+                <TextInput
                     style={styles.fixed}
-                    onChangeText={setTexto}
-                    value={texto}
-                    placeholder="Campo 2"
+                    onChangeText={setApelido}
+                    value={apelido}
+                    placeholder="Apelido"
+                    editable={false}
                 />
             </View>
-            <Text
+            <TextInput
                 style={styles.edit}
-                onChangeText={setTexto}
-                value={texto}
+                onChangeText={setEmpresa}
+                value={empresa}
+                placeholder="Empresa"
+                editable={false}
             />
             <View style={styles.fixed1}>
-                <Text
+                <TextInput
                     style={styles.fixed}
-                    onChangeText={setTexto}
-                    value={texto}
-                    placeholder="Campo 1"
+                    onChangeText={setSetor}
+                    value={setor}
+                    placeholder="Setor"
+                    editable={false} 
                 />
-                <Text
+                <TextInput
                     style={styles.fixed}
-                    onChangeText={setTexto}
-                    value={texto}
-                    placeholder="Campo 2"
+                    onChangeText={setTipo}
+                    value={tipo}
+                    placeholder="Tipo"
+                    editable={false}
                 />
             </View>
 

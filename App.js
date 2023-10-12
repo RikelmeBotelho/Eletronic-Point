@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Login from './Screens/login';
@@ -8,10 +8,9 @@ import funcion from './Screens/funcion';
 import RelatorioADM from './Screens/RelatorioADM';
 import TelaADM from './Screens/TelaADM';
 import { NavigationContainer } from '@react-navigation/native';
-
-
-
-  const Stack = createStackNavigator();
+import Api from './src/Services/Api'; 
+  
+const Stack = createStackNavigator();
 
   function MyStack() {
     return (
@@ -22,17 +21,21 @@ import { NavigationContainer } from '@react-navigation/native';
         <Stack.Screen name="RelatorioADM" component={RelatorioADM} />
         <Stack.Screen name="funcion" component={funcion} />
         <Stack.Screen name="TelaADM" component={TelaADM} />
+        
+      
 
       </Stack.Navigator>
     );
   }
 
   export default function App() {
+
     return (
       <NavigationContainer>
+
         <MyStack/>
+      
       </NavigationContainer>
+      
     );
-  }
-  
-  
+    }

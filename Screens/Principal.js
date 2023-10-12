@@ -15,7 +15,7 @@ function TextBox({ hora }) {
 export default function Principal() {
   const navigation = useNavigation();
   const [horasRegistradas, setHorasRegistradas] = useState([]);
-  const [ setRegistrado] = useState(false);
+  const [registrado, setRegistrado] = useState(null);
   const [contadorPressaoBotao, setContadorPressaoBotao] = useState(0);
 
   const Relatorio = () => {
@@ -47,15 +47,14 @@ export default function Principal() {
   return (
     <View style={styles.container}>
       <View style={styles.profileImageContainer}>
+
         <Image
-          source={{
-            uri: 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png',
-          }}
+          source={require('../assets/leticia.jpeg')}
           style={styles.profileImage}
-        />
+      />
       </View>
 
-      <Text style={styles.title}>Nome do Usuário</Text>
+      <Text style={styles.title}>Leticia Moura</Text>
       <TouchableOpacity
         style={[
           styles.button,
@@ -72,12 +71,8 @@ export default function Principal() {
           <TextBox key={index} hora={hora} />
         ))}
       </View>
-
-      <View style={styles.flexBoxContainer}>
-        <View style={styles.flexBoxItem}></View>
-      </View>
-
-      
+      <View style={styles.orangeBall} />
+      <View style={styles.secondBall} />
       <View style={styles.bottomButtonsContainer}>
         <TouchableOpacity style={styles.bottomButton} onPress={Relatorio}>
           <Text style={styles.bottomButtonText}>Relatório</Text>
@@ -92,6 +87,9 @@ export default function Principal() {
           <Text style={styles.bottomButtonText}>TelaADM</Text>
         </TouchableOpacity>
       </View>
+
+      <Text style={styles.version}>Vs 0.0.1</Text>
     </View>
+    
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -21,15 +22,13 @@ const HomeScreen = () => {
     return (
         <View style={styles.container}>
             <ScrollView>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((employeeNumber) => (
+                {[1, 2, 3, 4, 5, 6 ].map((employeeNumber) => (
                     <View key={employeeNumber} style={[styles.textContainer, styles.whiteBackground]}>
                         <View style={styles.profileImageContainer}>
-                            <Image
-                                source={{
-                                    uri: 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png',
-                                }}
-                                style={styles.profileImage}
-                            />
+                        <Image 
+                            source={require('../assets/leticia.jpeg')}
+                            style={styles.profileImage}
+                        />
                             <Text style={styles.employeeName}>Funcionário {employeeNumber}</Text>
                         </View>
                     </View>
@@ -61,42 +60,45 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 100,
+        padding: 20,
+        backgroundColor: 'white'
     },
     textContainer: {
-        backgroundColor: 'orange',
         paddingBottom: 5,
-        marginBottom: 20,
+        marginBottom: 30,
     },
     employeeName: {
         fontSize: 18,
-        marginLeft: 7, 
+        padding: 15,
+        color: 'white'
     },
     profileImageContainer: {
-        backgroundColor: 'orange',
-        padding: 2,
+        padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
-        aspectRatio: 5,
+        aspectRatio: 4.5,
         borderRadius: 10,
+        borderWidth: 5,
+        borderColor: 'orange',
+        backgroundColor: 'orange'
     },
     profileImage: {
-        width: '19%',
-        height: '100%',
+        width: '17%',
+        height: '105%',
         borderRadius: 100,
         justifyContent: 'center',
         paddingBottom: 5,
+        borderWidth: 2, 
+        borderColor: 'white'
     },
     bottomButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%', 
         padding: 10,
-        backgroundColor: 'orange',
     },
     bottomButton: {
-        backgroundColor: 'orange', 
         padding: 10,
         borderRadius: 5,
     },
