@@ -5,22 +5,27 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   edit: {
     width: '92%',
-    height: 40,
+    height: 45,
     borderWidth: 1.5,
     borderColor: 'orange',
     borderRadius: 100,
     paddingLeft: 15,
+    fontSize: 16,
+    color: 'grey'
   },
   fixed: {
     width: '50%',
-    height: 40,
+    height: 45,
     borderWidth: 1.5,
     borderColor: 'orange',
     borderRadius: 100,
     paddingLeft: 15,
+    fontSize: 16,
+    color: 'grey'
   },
   fixed1: {
     flexDirection: 'row',
@@ -32,7 +37,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   botao: {
-    marginTop: 20,
+    marginTop: 5,
     backgroundColor: 'orange',
     padding: 12,
     borderRadius: 50 ,
@@ -43,13 +48,26 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  bottomButtonSalvar: {
+
+    width: 100,
+    borderWidth: 2,
+    borderColor: 'orange',
+    textAlign: 'center',
+    backgroundColor: 'orange',
+    padding: 10,
+    borderRadius: 25,
+    color: 'white',
+    fontSize: 15
+  },
 
   profileImageContainer: {
     backgroundColor: 'orange',
     borderRadius: 100,
     padding: 5,
     position: 'fixed',
-    marginBottom: 40
+    marginBottom: -15,
+    top: -50,
    
   },
   profileImage: {
@@ -61,11 +79,12 @@ const styles = StyleSheet.create({
 
   bottomButtonsContainer:{
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     width: '100%',
     position: 'absolute',
-    bottom: 0,
-    padding: 10,
+    bottom: 10,
+    padding: 0,
+    
   },
   });
 

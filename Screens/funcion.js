@@ -1,44 +1,114 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-const apiURL = "http://localhost:8080/funcionarios/2";
+import moment from "moment";
+import { Ionicons } from '@expo/vector-icons';
 
 const FuncionScreen = () => {
 
-  const [fullName, setFullName] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [dob, setDob] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [CHA, setCHA] = useState('');
-  const [CHD, setCHD] = useState('');
-  const [Tipo, setTipo] = useState('');
-  const [Turno, setTurno] = useState('');
-  const [Setor, setSetor] = useState('');
-  const [Cargo, setCargo] = useState('');
-  const [Empresa, setEmpresa] = useState('');
-
   const navigation = useNavigation();
 
-  const handleSave = () => {
-    // Lógica para salvar os dados no backend
-  };
+  const [dadosAPI, setDadosAPI] = useState({
+    nomeCompleto: '',
+    email: '',
+    cpf: '',
+    dataNascimento: '',
+    telefone: '',
+    apelido: '',
+    empresa: '',
+    cargo: '',
+    cargaHorariaMensal: null,
+    login: '',
+    senha: '',
+  });
+  
+  const [editedData, setEditedData] = useState({
+    nomeCompleto: '',
+    email: '',
+    cpf: '',
+    dataNascimento: '',
+    telefone: '',
+    apelido: '',
+    empresa: '',
+    cargo: '',
+    cargaHorariaMensal: null,
+    login: '',
+    senha: '',
+  });
+  const [isEditMode, setIsEditMode] = useState();
+
+    useEffect(() => {
+      //URL da API
+    fetch('http://192.168.1.10:8080/funcionarios/4')
+      .then((response) => response.json())
+      .then((json) => {
+          setDadosAPI(json)
+          const dataNascimentoFormatada = moment(json.dataNascimento).format("DD/MM/YYYY")
+          setDadosAPI(prevState => ({
+            ...prevState,
+            dataNascimento: dataNascimentoFormatada
+          }));
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar dados da API:', error);
+        });
+    }, []);
+
+
+    const handleSave = async () => {
+      try {
+        const response = await fetch('http://192.168.1.10:8080/funcionarios/profile/basic-data/4', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editedData),
+        });
+    
+        if (response.ok) {
+          const updatedData = await response.json();
+
+          setDadosAPI(updatedData);
+          setIsEditMode(false); 
+        }
+      } catch (error) {
+        alert('Ocorreu um erro ao salvar os dados do funcionário.');
+      }
+    };
+    
 
   const handleEdit = () => {
     // Lógica para habilitar a edição dos campos
+    setIsEditMode(true);
+    setEditedData({ ...dadosAPI });
   };
 
-  const handleInactivate = () => {
-    // Lógica para inativar a conta
-  };
+  const handleToggleActivation = () => {
+      
+    const newStatus = !dadosAPI.ativo; 
 
+    const endpoint = newStatus ? 'ativar' : 'desativar';
 
+    const method = newStatus ? 'PUT' : 'DELETE';
 
+    fetch(`http://192.168.1.10:8080/funcionarios/${endpoint}/4`, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ativo: newStatus }),
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(`Funcionário ${newStatus ? 'ativado' : 'inativado'} com sucesso:`, json);
+        setDadosAPI({ ...dadosAPI, ativo: newStatus }); 
+    })
+    .catch((error) => {
+        console.error(`Erro ao ${newStatus ? 'ativar' : 'inativar'} funcionário:`, error);
+    });
+};
+    
   const Home = () => {
     navigation.navigate('Principal');
   };
@@ -51,83 +121,123 @@ const FuncionScreen = () => {
   const funcion = () => {
     navigation.navigate('funcion');
   };
+  const Cadastro = () => {
+    navigation.navigate('Cadastro');
+  };
 
   return (
+
     <View style={styles.container}>
+
       <ScrollView>
 
         <View style={styles.profileImageContainer}>
+
           <Image 
             source={require('../assets/leticia.jpeg')}
             style={styles.profileImage}
           />
+
         </View>
 
-
         <View style={styles.textBoard}>
-          <Text style={styles.label}><Text style={styles.boldText}>                                         Dados Pessoais</Text></Text>
+
+          <Text style={{...styles.label, textAlign: 'center'}}>
+            <Text style={{...styles.boldText, textAlign: 'center'}}>Dados Pessoais</Text>
+          </Text>
+
           <TextInput
             placeholder="   Nome"
-            value={fullName}
-            onChangeText={setFullName}
+            value={isEditMode ? editedData.nomeCompleto : dadosAPI.nomeCompleto}
+            onChangeText={(text) => setEditedData({ ...editedData, nomeCompleto: text })}
+            editable={isEditMode}
             style={styles.input}
-            editable={false}
           />
+
         </View>
 
         <View style={styles.textBoard}>
 
           <TextInput
             placeholder="   nome@email.com"
-            value={email}
-            onChangeText={setEmail}
-            editable={false}
+            value={isEditMode ? editedData.email : dadosAPI.email}
+            onChangeText={(text) => setEditedData({ ...editedData, email: text })}
+            editable={isEditMode}
             style={styles.input}
           />
-        </View>
 
-        <View style={styles.textBoard}>
-
-          <TextInput
-            placeholder="   CPF"
-            keyboardType='numeric'
-            value={cpf}
-            onChangeText={setCpf}
-            style={styles.input}
-          />
         </View>
 
         <View style={styles.row}>
+
+          
+        <View style={[styles.textBoard, styles.flex1]}>
+
+          <TextInput
+             placeholder="   CPF"
+             keyboardType='numeric'
+             value={isEditMode ? editedData.cpf : dadosAPI.cpf}
+            onChangeText={(text) => setEditedData({ ...editedData, cpf: text })}
+            editable={isEditMode}
+             style={styles.input}
+          />
+
+          </View>
+
+          <View style={[styles.textBoard, styles.flex1]}>
+
+            <TextInput
+              placeholder="Apelido"
+              value={isEditMode ? editedData.apelido : dadosAPI.apelido}
+            onChangeText={(text) => setEditedData({ ...editedData, apelido: text })}
+            editable={isEditMode}
+              style={styles.input}
+            />
+
+          </View>
+
+        </View>
+
+        <View style={styles.row}>
+          
+        <View style={[styles.textBoard, styles.flex1]}>
+
+          <TextInput
+            placeholder="   (00) 00000-0000"
+            //keyboardType='numeric'
+            value={isEditMode ? editedData.telefone : dadosAPI.telefone}
+            onChangeText={(text) => setEditedData({ ...editedData, telefone: text })}
+            editable={isEditMode}
+            style={styles.input}
+          />
+
+          </View>
+
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
               placeholder="   DD/MM/AAAA"
               keyboardType='numeric'
-              value={dob}
-              onChangeText={setDob}
+              value={isEditMode ? editedData.dataNascimento : dadosAPI.dataNascimento}
+              onChangeText={(text) => setEditedData({ ...editedData, dataNascimento: text })}
+              editable={isEditMode}
               style={styles.input}
             />
-          </View>
-          <View style={[styles.textBoard, styles.flex1]}>
 
-            <TextInput
-              placeholder="   (00) 00000-0000"
-              keyboardType='numeric'
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              style={styles.input}
-            />
           </View>
+
         </View>
 
         <View style={styles.textBoard}>
 
           <TextInput
             placeholder="   Login"
-            value={username}
-            onChangeText={setUsername}
+            value={isEditMode ? editedData.login : dadosAPI.login}
+            onChangeText={(text) => setEditedData({ ...editedData, login: text })}
+            editable={isEditMode}
             style={styles.input}
           />
+
         </View>
 
         <View style={styles.textBoard}>
@@ -135,100 +245,76 @@ const FuncionScreen = () => {
           <TextInput
             secureTextEntry={true}
             placeholder="   ********"
-            value={password}
-            onChangeText={setPassword}
+            value={isEditMode ? editedData.senha : dadosAPI.senha}
+            onChangeText={(text) => setEditedData({ ...editedData, senha: text })}
+            editable={isEditMode}
             style={styles.input}
           />
+
         </View>
 
         <View style={styles.textBoard}>
-          <Text style={styles.label}>
-          <Text style={styles.boldText}>                                                    Empresa</Text>
+
+          <Text style={{...styles.label, textAlign: 'center'}}>
+            
+          <Text style={styles.boldText}>Empresa</Text>
+          
           </Text>
+
           <TextInput
             placeholder="   Empresa"
-            value={Empresa}
-            onChangeText={setEmpresa}
-            style={styles.input}
+            value={dadosAPI.empresa.nome}
+            onChangeText={(text) => setDadosAPI({ ...dadosAPI, empresa: text })}
+            editable={false}
+            style={{...styles.input, textAlign: 'center', textTransform: 'uppercase'}}
           />
+
         </View>
 
-        <View style={styles.textBoard}>
-          <TextInput
-            placeholder="   Cargo"
-            value={Cargo}
-            onChangeText={setCargo}
-            style={styles.input}
-          />
-        </View>
+          <View style={styles.row}>
 
-
-        <View style={styles.textBoard}>
-          <TextInput
-            placeholder="   Setor"
-            value={Setor}
-            onChangeText={setSetor}
-            style={styles.input}
-          />
-        </View>
-
-        <View style={styles.row}>
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="   Tipo"
-              value={Tipo}
-              onChangeText={setTipo}
-              style={styles.input}
+              placeholder="   Cargo"
+              value={dadosAPI.cargo.area}
+              onChangeText={(text) => setDadosAPI({ ...dadosAPI, cargo: text })}
+              editable={false}
+              style={{...styles.input, textTransform: 'uppercase'}}
             />
+
           </View>
+
           <View style={[styles.textBoard, styles.flex1]}>
 
             <TextInput
-              placeholder="   Turno"
-              value={Turno}
-              onChangeText={setTurno}
+              placeholder="CH/M"
+              keyboardType='numeric'
+              value={(dadosAPI.cargaHorariaMensal || '').toString()}
+              onChangeText={(text) => setDadosAPI({ ...dadosAPI, cargaHorariaMensal: text })}
+              editable={false}
               style={styles.input}
             />
+
           </View>
-        </View>
-
-
-        <View style={styles.row}>
-          <View style={[styles.textBoard, styles.flex1]}>
-
-            <TextInput
-              placeholder="   CH/D"
-              value={CHD}
-              onChangeText={setCHD}
-              style={styles.input}
-            />
           </View>
-          <View style={[styles.textBoard, styles.flex1]}>
-
-            <TextInput
-              placeholder="   CH/A"
-              value={CHA}
-              onChangeText={setCHA}
-              style={styles.input}
-            />
-          </View>
-        </View>
-
-
-
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleSave} style={styles.button}>
-            <Text style={styles.buttonText}>Inativar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleEdit} style={styles.button}>
-            <Text style={styles.buttonText}>Editar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleInactivate} style={styles.button}>
-            <Text style={styles.buttonText}>Salvar</Text>
-          </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleToggleActivation} style={styles.button}>
+          <Text style={styles.buttonText}>{dadosAPI.ativo ? 'Inativar' : 'Ativar'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleEdit} style={styles.button}>
+          <Text style={styles.buttonText}>Editar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleSave} style={styles.button}>
+          <Text style={styles.buttonText}>Salvar</Text>
+        </TouchableOpacity>
+
         </View>
+
       </ScrollView>
 
       <Text>
@@ -236,19 +322,28 @@ const FuncionScreen = () => {
       </Text>
 
       <View style={styles.bottomButtonsContainer}>
+      <TouchableOpacity style={styles.bottomButton} onPress={Cadastro}>
+       <Ionicons name="add-circle-sharp" size={45} color="orange" style={styles.bottomButtonText}/>
+     </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Relatorio}>
-          <Text style={styles.bottomButtonText}>Relatório</Text>
+          <Ionicons name="document-text-outline" size={45} color="orange" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Home}>
-          <Text style={styles.bottomButtonText}>Home</Text>
+          <Ionicons name="home" size={45} color="orange" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Config}>
-          <Text style={styles.bottomButtonText}>Config</Text>
+          <Ionicons name="person-circle-outline" size={45} color="orange" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={funcion}>
-          <Text style={styles.bottomButtonText}>Funcionários</Text>
+          <Ionicons name="people-outline" size={45} color="orange" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
       </View>
+
     </View>
 
   );
@@ -258,7 +353,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    background: 'white',
+    backgroundColor: 'white',
     
   },
   profileImageContainer: {
@@ -266,11 +361,11 @@ const styles = StyleSheet.create({
     borderRadius: 300,
     padding: 10,
     position: 'fixed',
-    marginBottom: -10,
+    marginBottom: -45,
     height: 220,
     width: 220,
     margin: 70,
-    top: -50
+    top: -70
   },
   profileImage: {
       height: 200,
@@ -279,7 +374,7 @@ const styles = StyleSheet.create({
       borderRadius: 100,
   },
   textBoard: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: 'white',
     borderRadius: 5,
     padding: 3,
     marginBottom: 10,
@@ -290,6 +385,7 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   input: {
     borderWidth: 2,
@@ -297,6 +393,8 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     padding: 7,
     marginTop: 2,
+    color: '#1f1f1e',
+    paddingLeft: 15
   },
   row: {
     flexDirection: 'row',
@@ -308,9 +406,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    padding: 1,
-    margin: 5
+    justifyContent: 'space-between',
+    padding: 5,
   },
   button: {
     flex: 1,

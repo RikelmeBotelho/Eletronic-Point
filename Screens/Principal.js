@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import styles from '../style/princip';
 
 function TextBox({ hora }) {
@@ -13,6 +15,7 @@ function TextBox({ hora }) {
 }
 
 export default function Principal() {
+
   const navigation = useNavigation();
   const [horasRegistradas, setHorasRegistradas] = useState([]);
   const [registrado, setRegistrado] = useState(null);
@@ -74,18 +77,23 @@ export default function Principal() {
       <View style={styles.orangeBall} />
       <View style={styles.secondBall} />
       <View style={styles.bottomButtonsContainer}>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Relatorio}>
-          <Text style={styles.bottomButtonText}>Relatório</Text>
+          <Icon name="file" size={40} color="white" style={styles.bottomButtonText}></Icon>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Config}>
-          <Text style={styles.bottomButtonText}>Config</Text>
+        <Icon name="user-circle-o" size={45} color="#ffffff" style={styles.bottomButtonText}></Icon>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={funcion}>
-          <Text style={styles.bottomButtonText}>Funcionários</Text>
+          <Icon name="user-plus" size={40} color="white" style={styles.bottomButtonText}></Icon>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={TelaADM}>
-          <Text style={styles.bottomButtonText}>TelaADM</Text>
+          <Icon name="users" size={40} color="white" style={styles.bottomButtonText}></Icon>
         </TouchableOpacity>
+
       </View>
 
       <Text style={styles.version}>Vs 0.0.1</Text>

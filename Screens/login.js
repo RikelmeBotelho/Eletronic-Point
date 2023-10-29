@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import styles from '../style/mainstyle';
 
 export default function Login() {
+
   const [nome, setNome] = useState('');
   const [senha, setSenha] = useState('');
   const navigation = useNavigation();
@@ -20,8 +21,17 @@ export default function Login() {
     }
   };
 
+  const Adm = () => {
+    if (nome === 'usuario' && senha === 'senha') {
+      Alert.alert('Erro', 'Usuário ou senha inválidos');
+    } else {
+      navigation.navigate('Principal');
+    }
+  }
+
   return (
     <View style={styles.container}>
+
       <Image style={styles.logoImage} source={require('../assets/icon.png')} />
 
       <TextInput
@@ -30,7 +40,8 @@ export default function Login() {
         value={nome}
         onChangeText={text => setNome(text)}
       />
-
+          <View style={styles.orangeBall} />
+          <View style={styles.secondBall} />
       <TextInput
         style={styles.TextSenha}
         placeholder="********"
@@ -46,9 +57,15 @@ export default function Login() {
       <TouchableOpacity style={styles.btnCadastro} onPress={Entrar}>
         <Text style={{ color: 'white', textAlign: 'center' }}>Entrar</Text>
       </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.btnAdm} onPress={Adm}>
+        <Text style={{ color: 'white', textAlign: 'center' }}>ADM</Text>
+      </TouchableOpacity>
 
-      <View style={styles.orangeBall} />
-      <View style={styles.secondBall} />
+          <View style={styles.orangeBall} />
+          <View style={styles.secondBall} />
+
+
 
       <Text style={styles.version}>Vs 0.0.1</Text>
       

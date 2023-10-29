@@ -1,59 +1,113 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../style/configuraçao';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import moment from "moment";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Config() {
-    const navigation = useNavigation();
-    const [nome, setNome] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [email, setEmail] = useState('');
-    const [dtNasc, setDtNasc] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [apelido, setApelido] = useState('');
-    const [empresa, setEmpresa] = useState('');
-    const [setor, setSetor] = useState('');
-    const [tipo, setTipo] = useState('');
 
-    const handleSalvar = () => {
+  const navigation = useNavigation();
 
-        //Reseta o texto inserido depois que aperta o botão
-        setNome("");
-        setCpf("");
-        setEmail("");
-        setDtNasc("");
-        setDtNasc("");
-        setTelefone("");
-        setApelido("");
-        setEmpresa("");
-        setSetor("");
-        setTipo("");
+  const [dadosAPI, setDadosAPI] = useState({
+    nomeCompleto: '',
+    email: '',
+    cpf: '',
+    dataNascimento: '',
+    telefone: '',
+    apelido: '',
+    empresa: '',
+    senha: '',
+    cargo: '',
+  });
 
-        // Enviar para um servidor ou armazenar localmente.
-        console.log('Nome:', nome);
-        console.log('CPF:', cpf)
-        console.log('Data de Nascimento: ', dtNasc);
-        console.log('Email:', email);
-        console.log('Telefone:', telefone);
-        console.log('Apelido:', apelido);
-        console.log('Empresa:', empresa);
-        console.log('Setor: ', setor);
-        console.log('Tipo', tipo);
+  const [email, setEmail] = useState(dadosAPI.email);
+  const [apelido, setApelido] = useState(dadosAPI.apelido);
+  const [telefone, setTelefone] = useState(dadosAPI.telefone);
+
+  const [isEmailEditing, setIsEmailEditing] = useState(false);
+  const [isApelidoEditing, setIsApelidoEditing] = useState(false);
+  const [isTelefoneEditing, setIsTelefoneEditing] = useState(false);
+
+
+  useEffect(() => {
+    //URL da API
+  fetch('http://192.168.1.10:8080/funcionarios/3')
+    .then((response) => response.json())
+    .then((json) => {
+        setDadosAPI(json)
+        const dataNascimentoFormatada = moment(json.dataNascimento).format("DD/MM/YYYY");
+          // Atualize o estado usando a versão assíncrona da função de atualização
+          setDadosAPI(prevState => ({
+            ...prevState,
+            dataNascimento: dataNascimentoFormatada
+          }));
+        })
+        .catch((error) => {
+            console.error('Erro ao buscar dados da API:', error);
+          });
+  }, []);
+
+  const salvarAlteracoes = () => {
+    const newData = {
+      ...dadosAPI,
+      email,
+      apelido,
+      telefone,
     };
+  
+    fetch('http://192.168.1.10:8080/funcionarios/profile/basic-data/3', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newData),
+    })
+      .then((response) => response.json())
+      .then((json) => {
 
+        setIsEmailEditing(false);
+        setIsApelidoEditing(false);
+        setIsTelefoneEditing(false);
+        console.log(setIsApelidoEditing);
+      })
+      .catch((error) => {
+        // Lidar com erros de requisição
+        console.error('Erro ao salvar alterações:', error);
+      });
+  };
+  
+
+    const handleEmailChange = (text) => {
+        setEmail(text);
+    };
+    
+    const handleApelidoChange = (text) => {
+        setApelido(text);
+    };
+    
+    const handleTelefoneChange = (text) => {
+        setTelefone(text);
+    };
+    
 
     const Home = () => {
         navigation.navigate('Principal');
     };
+
     const Relatorio = () => {
-        navigation.navigate('RelatorioADM');
+    navigation.navigate('RelatorioADM');
     };
+
     const Config = () => {
-        navigation.navigate('config');
+    navigation.navigate('config');
     };
+    
     const funcion = () => {
-        navigation.navigate('funcion');
+    navigation.navigate('funcion');
+    };
+    const Cadastro = () => {
+      navigation.navigate('Cadastro');
     };
 
     return (
@@ -61,99 +115,127 @@ export default function Config() {
         <View style={styles.container}>
 
             <View style={styles.profileImageContainer}>
+
                 <Image
-                    source={require('../assets/leticia.jpeg')}
+                    source={require('../assets/bolsonaro.jpeg')}
                     style={styles.profileImage}
                 />
+
             </View>
 
+
+            <Text style={styles.label}><Text style={{...styles.boldText, textAlign: 'center'}}>Dados Pessoais</Text></Text>
             <TextInput
                 style={styles.edit}
-                onChangeText={setNome}
-                value={nome}
+                value={dadosAPI.nomeCompleto}
                 placeholder="Nome"
+                editable={false}
             />
+
             <View style={styles.fixed1}>
                 <TextInput
                     style={styles.fixed}
-                    onChangeText={setCpf}
-                    value={cpf}
+                    value={dadosAPI.cpf}
                     placeholder="XXX.XXX.XXX-XX"
                     editable={false}
                 />
+
                 <TextInput
                     style={styles.fixed}
-                    onChangeText={setDtNasc}
-                    value={dtNasc}
+                    value={dadosAPI.dataNascimento}
                     placeholder="XX/XX/XXXX"
                     editable={false}
                 />
+
             </View>
+
             <TextInput
                 style={styles.edit}
-                onChangeText={setEmail}
-                value={email}
+                value={isEmailEditing ? email : dadosAPI.email}
                 placeholder="Nome@gmail.com"
+                editable={true}
+                onFocus={() => setIsEmailEditing(true)}
+                onChangeText={handleEmailChange}
             />
+
             <View style={styles.fixed1}>
                 <TextInput
                     style={styles.fixed}
-                    onChangeText={setTelefone}
-                    value={telefone}
+                    value={isTelefoneEditing ? telefone : dadosAPI.telefone}
                     placeholder="(00) 00000-0000"
+                    editable={true}
+                    onFocus={() => setIsTelefoneEditing(true)}
+                    onChangeText={handleTelefoneChange}
                 />
+
                 <TextInput
                     style={styles.fixed}
-                    onChangeText={setApelido}
-                    value={apelido}
+                    value={isApelidoEditing ? apelido : dadosAPI.apelido}
                     placeholder="Apelido"
-                    editable={false}
+                    editable={true}
+                    onFocus={() => setIsApelidoEditing(true)}
+                    onChangeText={handleApelidoChange}
                 />
             </View>
+            <Text style={styles.label}>
+            
+              <Text style={styles.boldText}>     Empresa</Text>
+            
+            </Text>
             <TextInput
-                style={styles.edit}
-                onChangeText={setEmpresa}
-                value={empresa}
+                style={{...styles.edit, fontWeight: 'bold', textTransform: 'uppercase'}}
+                value={dadosAPI.empresa.nome}
+                textAlign='center'
                 placeholder="Empresa"
                 editable={false}
             />
+
             <View style={styles.fixed1}>
                 <TextInput
                     style={styles.fixed}
-                    onChangeText={setSetor}
-                    value={setor}
-                    placeholder="Setor"
+                    value={dadosAPI.cargo.area}
+                    placeholder="Cargo"
                     editable={false} 
                 />
+
                 <TextInput
+                    secureTextEntry={true}
                     style={styles.fixed}
-                    onChangeText={setTipo}
-                    value={tipo}
-                    placeholder="Tipo"
+                    value={dadosAPI.senha}
+                    placeholder="Carga Horaria Mensal"
                     editable={false}
                 />
+
             </View>
 
-            <TouchableOpacity onPress={handleSalvar} style={styles.botao}>
-                <Text style={styles.textoBotao}>Salvar</Text>
+            {isEmailEditing || isApelidoEditing || isTelefoneEditing ? (
+            <TouchableOpacity style={styles.bottomButton} onPress={salvarAlteracoes}>
+                 <Text style={styles.bottomButtonSalvar}>Salvar</Text>
             </TouchableOpacity>
-
+        ) : null}
 
             <View style={styles.bottomButtonsContainer}>
+
                 <TouchableOpacity style={styles.bottomButton} onPress={Relatorio}>
-                    <Text style={styles.bottomButtonText}>Relatório</Text>
+                <Ionicons name="document-text-outline" size={45} color="orange" style={styles.bottomButtonText}/>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.bottomButton} onPress={Home}>
-                    <Text style={styles.bottomButtonText}>Home</Text>
+                <Ionicons name="home" size={45} color="orange" style={styles.bottomButtonText}/>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.bottomButton} onPress={Config}>
-                    <Text style={styles.bottomButtonText}>Config</Text>
+                <Ionicons name="person-circle-outline" size={45} color="orange" style={styles.bottomButtonText}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButton} onPress={funcion}>
-                    <Text style={styles.bottomButtonText}>Funcionários</Text>
+
+                <TouchableOpacity style={styles.bottomButton} onPress={Cadastro}>
+                  <Ionicons name="add-circle-sharp" size={45} color="orange" style={styles.bottomButtonText}/>
                 </TouchableOpacity>
-            </View>
+            
+                </View>
 
         </View>
+
     );
-}
+
+};

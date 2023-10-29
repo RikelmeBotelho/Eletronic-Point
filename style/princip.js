@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center', 
     paddingTop: '10%', 
+    backgroundColor: 'white',
   },
   profileImageContainer: {
     backgroundColor: 'orange',
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   },
   version: {
     zIndex: 4,
-    color: '#151716',
+    color: '#807670',
     bottom: '5%',
     position: 'absolute',
   }

@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Login from './Screens/login';
 import Principal from './Screens/Principal';
 import Config from './Screens/config';
@@ -8,8 +6,7 @@ import funcion from './Screens/funcion';
 import RelatorioADM from './Screens/RelatorioADM';
 import TelaADM from './Screens/TelaADM';
 import { NavigationContainer } from '@react-navigation/native';
-import Api from './src/Services/Api'; 
-  
+    
 const Stack = createStackNavigator();
 
   function MyStack() {

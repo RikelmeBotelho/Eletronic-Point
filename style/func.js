@@ -5,11 +5,11 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 20,
+      backgroundColor: 'white',
     },
     textBoard: {
-      backgroundColor: '#f0f0f0', // Cinza claro
       borderRadius: 5,
-      
+      backgroundColor: 'white',
       marginBottom: 10,
     },
     label: {

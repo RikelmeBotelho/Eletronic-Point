@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Ionicons } from '@expo/vector-icons';
 
 
 function RelatorioADM() {
@@ -25,7 +25,7 @@ function RelatorioADM() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
       <TouchableOpacity onPress={handleDownload} style={{ backgroundColor: 'orange', padding: 15, borderRadius: 5, width: 180, alignItems: 'center',}}>
         <Text style={{ color: 'white', fontSize: 20, }}>Baixar Relatório</Text>
       </TouchableOpacity>
@@ -34,17 +34,21 @@ function RelatorioADM() {
 
       <View style={styles.all}>
       <View style={styles.bottomButtonsContainer}>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Relatorio}>
-          <Text style={styles.bottomButtonText}>                  Relatório</Text>
+            <Ionicons name="document-text-outline" size={45} color="white" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Home}>
-          <Text style={styles.bottomButtonText}>Home</Text>
+             <Ionicons name="home" size={45} color="white" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={Config}>
-          <Text style={styles.bottomButtonText}>Config</Text>
+          <Ionicons name="person-circle-outline" size={45} color="white" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.bottomButton} onPress={funcion}>
-          <Text style={styles.bottomButtonText}>Funcionários</Text>
+          <Ionicons name="people-outline" size={45} color="white" style={styles.bottomButtonText}/>
         </TouchableOpacity>
         
       </View>
@@ -58,10 +62,10 @@ function RelatorioADM() {
 const styles = StyleSheet.create({
 bottomButtonsContainer:{
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: 'space-around',
   width: '100%',
   position: 'absolute',
-  bottom: -325,
+  bottom: -315,
   padding: 10,
   position: 'center',
   alignItems: 'center',
