@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+//import { useNavigation, NavigationContainer } from '@react-navigation/native';
+import { useNavigationr} from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 
-function RelatorioADM() {
+
+export default function RelatorioADM() {
   const navigation = useNavigation();
+
   const handleDownload = () => {
     // Lógica para baixar o relatório aqui
     // Por exemplo, você pode usar a biblioteca 'react-native-fetch-blob' para baixar um arquivo.
@@ -92,6 +95,3 @@ secondBall: {
 
 },
 });
-
-
-export default RelatorioADM;

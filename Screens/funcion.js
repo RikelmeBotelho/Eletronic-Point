@@ -1,13 +1,20 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import moment from "moment";
+import { Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import useToken from './../services/useToken';
+import useId from './../services/useId';
+import styles from '../style/FuncionariosADM';
 
 const FuncionScreen = () => {
 
   const navigation = useNavigation();
+
+  const tokenSaved = useToken();
+
+  const idSaved = useId();
 
   const [dadosAPI, setDadosAPI] = useState({
     nomeCompleto: '',
@@ -36,52 +43,74 @@ const FuncionScreen = () => {
     login: '',
     senha: '',
   });
+
   const [isEditMode, setIsEditMode] = useState();
 
     useEffect(() => {
-      //URL da API
-    fetch('http://192.168.1.10:8080/funcionarios/4')
+
+      const id = (idSaved);
+
+    //URL da API
+    fetch(`http://192.168.1.5:8080/funcionarios/${id.myId}`, {
+
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + tokenSaved.myToken,
+      } 
+
+    })
       .then((response) => response.json())
       .then((json) => {
           setDadosAPI(json)
-          const dataNascimentoFormatada = moment(json.dataNascimento).format("DD/MM/YYYY")
+          const dataNascimentoFormatada = moment(json.dataNascimento).format("DD/MM/YYYY");
+          // Atualize o estado usando a versão assíncrona da função de atualização
           setDadosAPI(prevState => ({
             ...prevState,
             dataNascimento: dataNascimentoFormatada
           }));
         })
         .catch((error) => {
-          console.error('Erro ao buscar dados da API:', error);
+          //console.error('Erro ao buscar dados da API:', error);
         });
-    }, []);
+    }, [idSaved, tokenSaved.myToken]);
 
-
+   
     const handleSave = async () => {
       try {
-        const response = await fetch('http://192.168.1.10:8080/funcionarios/profile/basic-data/4', {
+        const id = (idSaved);
+
+        const response = await fetch(`http://192.168.1.5:8080/funcionarios/profile/basic-data/${id.myId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + tokenSaved.myToken,          
           },
           body: JSON.stringify(editedData),
         });
     
         if (response.ok) {
+
           const updatedData = await response.json();
 
           setDadosAPI(updatedData);
           setIsEditMode(false); 
-        }
+          
+          Alert.alert('Sucesso', 'Os dados foram atualizados com sucesso!');
+        } 
       } catch (error) {
+
         alert('Ocorreu um erro ao salvar os dados do funcionário.');
+
       }
     };
     
 
   const handleEdit = () => {
     // Lógica para habilitar a edição dos campos
-    setIsEditMode(true);
+    
     setEditedData({ ...dadosAPI });
+
+    setIsEditMode(true);
   };
 
   const handleToggleActivation = () => {
@@ -91,11 +120,14 @@ const FuncionScreen = () => {
     const endpoint = newStatus ? 'ativar' : 'desativar';
 
     const method = newStatus ? 'PUT' : 'DELETE';
+   
+    const id = (idSaved);
 
-    fetch(`http://192.168.1.10:8080/funcionarios/${endpoint}/4`, {
+    fetch(`http://192.168.1.5:8080/funcionarios/${endpoint}/${id.myId}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + tokenSaved.myToken,
         },
         body: JSON.stringify({ ativo: newStatus }),
     })
@@ -348,88 +380,5 @@ const FuncionScreen = () => {
 
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 15,
-    backgroundColor: 'white',
-    
-  },
-  profileImageContainer: {
-    backgroundColor: 'orange',
-    borderRadius: 300,
-    padding: 10,
-    position: 'fixed',
-    marginBottom: -45,
-    height: 220,
-    width: 220,
-    margin: 70,
-    top: -70
-  },
-  profileImage: {
-      height: 200,
-      width: 200, 
-      aspectRatio: 1, 
-      borderRadius: 100,
-  },
-  textBoard: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 3,
-    marginBottom: 10,
-  },
-  label: {
-    color: '#555',
-    marginBottom: 5,
-  },
-  boldText: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 2,
-    borderColor: 'orange',
-    borderRadius: 80,
-    padding: 7,
-    marginTop: 2,
-    color: '#1f1f1e',
-    paddingLeft: 15
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 3,
-  },
-  flex1: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 5,
-  },
-  button: {
-    flex: 1,
-    backgroundColor: 'orange',
-    borderRadius: 25,
-    padding: 10,
-    paddingLeft: 5,
-    alignItems: 'center',
-    paddingTop: 13,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  bottomButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    bottom: -12,
-    padding: 10,
-  
-  },
-});
 
 export default FuncionScreen;

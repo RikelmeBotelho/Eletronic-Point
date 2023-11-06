@@ -5,7 +5,7 @@ import styles from '../style/princip';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useToken from './../services/useToken';
 import useId from '../services/useId';
-
+/*
 function TextBox({ hora }) {
 
   return (
@@ -14,10 +14,10 @@ function TextBox({ hora }) {
       <View style={styles.quadradoA} />
     </View>
   );
-}
+}*/
 
-export default function Principal() {
-
+export default function HomeADM() {
+/*
   const [dadosAPI, setDadosAPI] = useState({
     apelido: '',
     horarioEntrada: '',
@@ -61,7 +61,7 @@ export default function Principal() {
   const [horasRegistradas, setHorasRegistradas] = useState([]);
   const [registrado, setRegistrado] = useState(null);
   const [contadorPressaoBotao, setContadorPressaoBotao] = useState(0);
-  const [t, setT] = useState();
+  const [t, setT] = useState();*/
 
   const Relatorio = () => {
     navigation.navigate('RelatorioADM');
@@ -77,7 +77,7 @@ export default function Principal() {
   };
 
   
-
+/*
   const registrarHora = () => {
 
     if (contadorPressaoBotao < 4) {
@@ -101,7 +101,7 @@ export default function Principal() {
     
    
       
-      console.log("token recuperado: " + token.myToken)
+      console.log("token recuperado: " + token.myToken)*/
       
       
 
@@ -116,22 +116,7 @@ export default function Principal() {
       </View>
 
       <Text style={styles.title}>Leticia Moura</Text>
-      <TouchableOpacity
-        style={[
-          styles.button,
-          contadorPressaoBotao >= 4 && styles.disabledButton,
-        ]}
-        onPress={registrarHora}
-        disabled={contadorPressaoBotao >= 4}
-      >
-        <Text style={styles.buttonText}>Registrar Hora</Text>
-      </TouchableOpacity>
-
-      <View style={[styles.textBoxRow, { flexDirection: 'row' }]}>
-        {horasRegistradas.map((hora, index) => (
-          <TextBox key={index} hora={hora} />
-        ))}
-      </View>
+      
       <View style={styles.orangeBall} />
       <View style={styles.secondBall} />
       <View style={styles.bottomButtonsContainer}>

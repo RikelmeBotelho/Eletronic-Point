@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     borderColor: 'orange',
     marginBottom: 200,
     zIndex: 3,
-    top: '38%',
+    top: '37%',
     position: 'absolute'
   },
 

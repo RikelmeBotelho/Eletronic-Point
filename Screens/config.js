@@ -4,10 +4,16 @@ import { useNavigation } from '@react-navigation/native';
 import styles from '../style/configuraçao';
 import moment from "moment";
 import { Ionicons } from '@expo/vector-icons';
+import useToken from './../services/useToken';
+import useId from './../services/useId';
 
 export default function Config() {
 
   const navigation = useNavigation();
+
+  const tokenSaved = useToken();
+
+  const idSaved = useId();
 
   const [dadosAPI, setDadosAPI] = useState({
     nomeCompleto: '',
@@ -25,14 +31,31 @@ export default function Config() {
   const [apelido, setApelido] = useState(dadosAPI.apelido);
   const [telefone, setTelefone] = useState(dadosAPI.telefone);
 
+  useEffect(() => {
+    setEmail(dadosAPI.email);
+    setApelido(dadosAPI.apelido);
+    setTelefone(dadosAPI.telefone);
+  }, [dadosAPI.email, dadosAPI.apelido, dadosAPI.telefone]);
+
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [isApelidoEditing, setIsApelidoEditing] = useState(false);
   const [isTelefoneEditing, setIsTelefoneEditing] = useState(false);
 
 
   useEffect(() => {
+
+    const id = (idSaved);
+
     //URL da API
-  fetch('http://192.168.1.10:8080/funcionarios/3')
+    fetch(`http://192.168.1.5:8080/funcionarios/${id.myId}`, {
+
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + tokenSaved.myToken,
+    } 
+
+  })
     .then((response) => response.json())
     .then((json) => {
         setDadosAPI(json)
@@ -44,22 +67,27 @@ export default function Config() {
           }));
         })
         .catch((error) => {
-            console.error('Erro ao buscar dados da API:', error);
+            //console.error('Erro ao buscar dados da API:', error);
           });
-  }, []);
+  }, [idSaved, tokenSaved.myToken]);
 
   const salvarAlteracoes = () => {
+    
+    const id = (idSaved);
+  
     const newData = {
       ...dadosAPI,
       email,
       apelido,
       telefone,
     };
-  
-    fetch('http://192.168.1.10:8080/funcionarios/profile/basic-data/3', {
+
+    fetch(`http://192.168.1.5:8080/funcionarios/profile/basic-data/${id.myId}`, {
+      
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + tokenSaved.myToken,
       },
       body: JSON.stringify(newData),
     })
@@ -69,14 +97,16 @@ export default function Config() {
         setIsEmailEditing(false);
         setIsApelidoEditing(false);
         setIsTelefoneEditing(false);
-        console.log(setIsApelidoEditing);
+
+        console.log(json); // Verifique a resposta da API
+        
       })
       .catch((error) => {
         // Lidar com erros de requisição
         console.error('Erro ao salvar alterações:', error);
       });
+      [idSaved, tokenSaved.myToken]
   };
-  
 
     const handleEmailChange = (text) => {
         setEmail(text);
