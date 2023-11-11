@@ -12,6 +12,7 @@ import RelatorioADM from './Screens/RelatorioADM';
 import TelaADM from './Screens/TelaADM';
 //import RecenteADM from './Screens/RecenteADM';
 import HomeADM from './Screens/HomeADM';
+import Cadastro from './Screens/Cadastro';
 import { NavigationContainer } from '@react-navigation/native';
   
 const Stack = createStackNavigator();
@@ -26,6 +27,7 @@ const Stack = createStackNavigator();
         <Stack.Screen name="RelatorioADM" component={RelatorioADM} />
         <Stack.Screen name="funcion" component={funcion} />
         <Stack.Screen name="TelaADM" component={TelaADM} />
+        <Stack.Screen name="Cadastro" component={Cadastro} />
         
       
 

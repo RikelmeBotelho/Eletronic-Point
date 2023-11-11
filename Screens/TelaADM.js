@@ -1,24 +1,23 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
 
-    const Relatorio = () => {
-        navigation.navigate('RelatorioADM');
-    };
-    const Config = () => {
-        navigation.navigate('config');
-    };
-    const funcion = () => {
-        navigation.navigate('funcion');
-    };
-    const Home = () => {
-        navigation.navigate('Principal');
-    };
-
+   
+  const HomeADM = () => {
+    navigation.navigate('HomeADM');
+  };
+  const Cadastro = () => {
+    navigation.navigate('Cadastro');
+  };
+  const TelaADM = () => {
+    navigation.navigate('TelaADM');
+  };
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -38,18 +37,18 @@ const HomeScreen = () => {
             <Text>{'\n'}</Text>
 
             <View style={styles.bottomButtonsContainer}>
-                <TouchableOpacity style={styles.bottomButton} onPress={Relatorio}>
-                    <Text style={styles.bottomButtonText}>Relatório</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButton} onPress={Home}>
-                    <Text style={styles.bottomButtonText}>Home</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButton} onPress={Config}>
-                    <Text style={styles.bottomButtonText}>Config</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomButton} onPress={funcion}>
-                    <Text style={styles.bottomButtonText}>Funcionários</Text>
-                </TouchableOpacity>
+               
+        <TouchableOpacity style={styles.bottomButton} onPress={TelaADM}>
+        <Ionicons name="people-outline" size={45} color="orange" style={styles.bottomButtonText}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.bottomButton} onPress={HomeADM}>
+        <Ionicons name="home" size={45} color="orange" style={styles.bottomButtonText}/>
+      </TouchableOpacity>
+
+        <TouchableOpacity style={styles.bottomButton} onPress={Cadastro}>
+          <Ionicons name="add-circle-sharp" size={45} color="orange" style={styles.bottomButtonText}/>
+        </TouchableOpacity>
             </View>
         </View>
     );
@@ -96,16 +95,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%', 
-        padding: 10,
     },
-    bottomButton: {
-        padding: 10,
-        borderRadius: 5,
-    },
-    bottomButtonText: {
-        fontSize: 16,
-        color: 'black',
-    },
+   
 });
 
 export default HomeScreen;

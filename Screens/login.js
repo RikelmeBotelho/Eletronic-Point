@@ -17,7 +17,7 @@ export default function Login() {
 
   const Entrar = async () => {
     try {
-      const response = await fetch('http://192.168.1.5:8080/auth/login', {
+      const response = await fetch(`http://192.168.1.9:8080/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,8 +93,8 @@ export default function Login() {
 
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // Especifica o comportamento de ajuste para iOS ou Android
-    style={{ flex: 1 }} // Garante que a view ocupe a tela inteira
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+    style={{ flex: 1 }} 
   >
     <View style={styles.container}>
 

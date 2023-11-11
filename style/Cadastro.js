@@ -3,9 +3,15 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 15,
+      padding: 25,
       backgroundColor: 'white',
       
+    },
+    profileImage: {
+      width: 100, // Ajuste de acordo com o tamanho desejado
+      height: 100, // Ajuste de acordo com o tamanho desejado
+      borderRadius: 50, // Isso é para criar uma imagem circular, ajuste conforme necessário
+      marginTop: 10, // Ajuste conforme necessário
     },
     picker: {
         height: 50,
@@ -66,7 +72,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 5,
+      padding: 15,
     },
     button: {
       flex: 1,
@@ -90,4 +96,5 @@ const styles = StyleSheet.create({
     
     },
   });
+  
   export default styles;

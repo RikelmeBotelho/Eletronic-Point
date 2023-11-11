@@ -18,6 +18,12 @@ function TextBox({ hora }) {
 
 export default function Principal() {
 
+  
+
+  const id = useId();
+  const token = useToken();
+  const navigation = useNavigation();
+
   const [dadosAPI, setDadosAPI] = useState({
     apelido: '',
     horarioEntrada: '',
@@ -25,11 +31,8 @@ export default function Principal() {
     horarioIntervaloSaida: '',
     horarioSaida: ''
   });
-  const idSaved = useId();
-
-  const id = (idSaved);
-
-  fetch(`http://192.168.1.5:8080/funcionarios/${id.myId}`, {
+  
+  fetch(`http://192.168.1.9:8080/funcionarios/${id.myId}`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -52,16 +55,13 @@ export default function Principal() {
 });
 
 
-
-  const token = useToken();
-
-  const navigation = useNavigation();
   
   const [inputData, setInputData] = useState([]);
   const [horasRegistradas, setHorasRegistradas] = useState([]);
   const [registrado, setRegistrado] = useState(null);
   const [contadorPressaoBotao, setContadorPressaoBotao] = useState(0);
   const [t, setT] = useState();
+  
 
   const Relatorio = () => {
     navigation.navigate('RelatorioADM');
@@ -81,13 +81,20 @@ export default function Principal() {
   const registrarHora = () => {
 
     if (contadorPressaoBotao < 4) {
+
       const dataAtual = new Date();
       
       const horaEntrada = dataAtual.getHours().toString().padStart(2, '0') + ':' + dataAtual.getMinutes().toString().padStart(2, '0');
       const horarioIntervaloEntrada = dataAtual.getHours().toString().padStart(2, '0') + ':' + dataAtual.getMinutes().toString().padStart(2, '0');
       const horarioIntervaloSaida = dataAtual.getHours().toString().padStart(2, '0') + ':' + dataAtual.getMinutes().toString().padStart(2, '0');
       const horarioSaida = dataAtual.getHours().toString().padStart(2, '0') + ':' + dataAtual.getMinutes().toString().padStart(2, '0');
-      
+      const horaFormatada = `Horário ${contadorPressaoBotao} = ${horaEntrada}`;
+
+      setHorasRegistradas([...horasRegistradas, horaFormatada]);
+      setContadorPressaoBotao(contadorPressaoBotao + 1);
+      setRegistrado(true);
+
+
       // Atualize o estado dadosAPI com a hora de entrada
       setDadosAPI(prevState => ({
         ...prevState,
@@ -95,9 +102,10 @@ export default function Principal() {
         horarioIntervaloEntrada: horarioIntervaloEntrada,
         horarioIntervaloSaida: horarioIntervaloSaida,
         horarioSaida: horarioSaida
-
       }));
+
     }}
+
     
    
       

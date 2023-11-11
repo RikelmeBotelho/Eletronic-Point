@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../style/princip';
+
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useToken from './../services/useToken';
 import useId from '../services/useId';
@@ -17,6 +19,9 @@ function TextBox({ hora }) {
 }*/
 
 export default function HomeADM() {
+  
+  const navigation = useNavigation();
+  
 /*
   const [dadosAPI, setDadosAPI] = useState({
     apelido: '',
@@ -62,15 +67,11 @@ export default function HomeADM() {
   const [registrado, setRegistrado] = useState(null);
   const [contadorPressaoBotao, setContadorPressaoBotao] = useState(0);
   const [t, setT] = useState();*/
-
-  const Relatorio = () => {
-    navigation.navigate('RelatorioADM');
+  const Cadastro = () => {
+    navigation.navigate('Cadastro');
   };
-  const Config = () => {
-    navigation.navigate('config');
-  };
-  const funcion = () => {
-    navigation.navigate('funcion');
+  const HomeADM = () => {
+    navigation.navigate('HomeADM');
   };
   const TelaADM = () => {
     navigation.navigate('TelaADM');
@@ -119,22 +120,25 @@ export default function HomeADM() {
       
       <View style={styles.orangeBall} />
       <View style={styles.secondBall} />
+
       <View style={styles.bottomButtonsContainer}>
-        <TouchableOpacity style={styles.bottomButton} onPress={Relatorio}>
-          <Text style={styles.bottomButtonText}>Relatório</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomButton} onPress={Config}>
-          <Text style={styles.bottomButtonText}>Config</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomButton} onPress={funcion}>
-          <Text style={styles.bottomButtonText}>Funcionários</Text>
-        </TouchableOpacity>
+    
+        
+
         <TouchableOpacity style={styles.bottomButton} onPress={TelaADM}>
-          <Text style={styles.bottomButtonText}>TelaADM</Text>
+        <Ionicons name="people-outline" size={45} color="white" style={styles.bottomButtonText}/>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.bottomButton} onPress={HomeADM}>
+        <Ionicons name="home" size={45} color="white" style={styles.bottomButtonText}/>
+      </TouchableOpacity>
+
+        <TouchableOpacity style={styles.bottomButton} onPress={Cadastro}>
+          <Ionicons name="add-circle-sharp" size={45} color="white" style={styles.bottomButtonText}/>
+        </TouchableOpacity>
+            
       </View>
 
-      <Text style={styles.version}>Vs 0.0.1</Text>
     </View>
     
   );

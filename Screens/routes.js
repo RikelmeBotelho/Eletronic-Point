@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Principal from "./Principal";
 import Config from "./config";
 import RelatorioADM from "./RelatorioADM";
+import Cadastro from "./Cadastro";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +16,8 @@ function routes() {
             <Tab.Screen name="Relatorio" component={RelatorioADM} />
  
             <Tab.Screen name="Configurações" component={Config} />
+            
+            <Tab.Screen name="Cadastro" component={Cadastro} />
         </Tab.Navigator>
     )
 }
