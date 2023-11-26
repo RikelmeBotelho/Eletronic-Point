@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import useToken from './../services/useToken';
+import useId from '../services/useId';
 import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
+    const [employees, setEmployees] = useState([]);
 
+    const tokenSaved = useToken();
+
+    const idSaved = useId();
+
+    useEffect(() => {
+      // Função para buscar os funcionários da API
+      const fetchEmployees = async () => {
+        try {
+            
+          const response = await fetch('http://192.168.0.106:8080/funcionarios', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + tokenSaved.myToken,
+            }
+          }) ;
+          const data = await response.json();
+          setEmployees(data);
+          console.log(setEmployees);
+        } catch (error) {
+          console.error('Erro ao buscar funcionários:', error);
+        }
+
+        console.log(data.employees);
+        
+ 
+      };
+  
+      fetchEmployees();
+    }, []); // O
    
   const HomeADM = () => {
     navigation.navigate('HomeADM');
@@ -20,19 +52,16 @@ const HomeScreen = () => {
   };
     return (
         <View style={styles.container}>
-            <ScrollView>
-                {[1, 2, 3, 4, 5, 6 ].map((employeeNumber) => (
-                    <View key={employeeNumber} style={[styles.textContainer, styles.whiteBackground]}>
-                        <View style={styles.profileImageContainer}>
-                        <Image 
-                            source={require('../assets/leticia.jpeg')}
-                            style={styles.profileImage}
-                        />
-                            <Text style={styles.employeeName}>Funcionário {employeeNumber}</Text>
-                        </View>
-                    </View>
-                ))}
-            </ScrollView>
+         <ScrollView>
+        {employees.map((employee) => (
+          <View key={employee.id} style={[styles.textContainer, styles.whiteBackground]}>
+            <View style={styles.profileImageContainer}>
+              <Image source={{ uri: employee.avatarUrl }} style={styles.profileImage} />
+              <Text style={styles.employeeName}>{employee.name}</Text>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
 
             <Text>{'\n'}</Text>
 

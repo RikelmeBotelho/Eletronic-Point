@@ -48,7 +48,7 @@ export default function Config() {
     const id = (idSaved);
 
     //URL da API
-    fetch(`http://192.168.1.9:8080/funcionarios/${id.myId}`, {
+    fetch(`http://192.168.1.8:8080/funcionarios/${id.myId}`, {
 
     method: 'GET',
     headers: {
@@ -83,7 +83,7 @@ export default function Config() {
       telefone,
     };
 
-    fetch(`http://192.168.1.5:8080/funcionarios/profile/basic-data/${id.myId}`, {
+    fetch(`http://192.168.1.8:8080/funcionarios/profile/basic-data/${id.myId}`, {
       
       method: 'PUT',
       headers: {

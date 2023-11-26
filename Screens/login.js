@@ -17,7 +17,7 @@ export default function Login() {
 
   const Entrar = async () => {
     try {
-      const response = await fetch(`http://192.168.1.9:8080/auth/login`, {
+      const response = await fetch(`http://192.168.0.109:8080/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,8 +42,8 @@ export default function Login() {
 
         navigation.navigate('HomeADM', { token: data.token });
 
+      } else {
         Alert.alert('Erro', data.message || 'Erro ao fazer login. Tente novamente mais tarde.');
-        
       }
     
       

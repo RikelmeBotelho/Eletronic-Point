@@ -10,7 +10,7 @@ import useId from './../services/useId';
 const Cadastro = () => {
 
   const [dadosFuncionario, setDadosFuncionario] = useState({
-    nomeCompleto: '',
+    nome: '',
     email: '',
     cpf: '',
     apelido: '',
@@ -18,8 +18,9 @@ const Cadastro = () => {
     dataNascimento: '',
     login: '',
     senha: '',
-    idCargo: '',
-    cargaHorariaMensal: 0,
+    empresa: '',
+    cargo: '',
+    chm: 0,
     cargaHorariaDiaria: 0,
     horarioEntrada: '',
     horarioIntervaloEntrada: '',
@@ -43,13 +44,15 @@ const Cadastro = () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
         console.error('Permitir acesso à Galeria de Fotos');
+        console.log("ERRO")
       }
+      console.log("status foto: " + status.uri)
     })();
   }, []);
   
 
   
-  //console.log("imgSalva: " + profileImage);
+  console.log(profileImage);
 
     const HomeADM = () => {
       navigation.navigate('HomeADM');
@@ -64,56 +67,29 @@ const Cadastro = () => {
       navigation.navigate('TelaADM');
     };
 
-    function formatarData(dataString) {
-      // Verifica se a string de data está no formato esperado
-      if (/^\d{8}$/.test(dataString)) {
-        // Extrai os componentes da data
-        const dia = dataString.substring(0, 2);
-        const mes = dataString.substring(2, 4);
-        const ano = dataString.substring(4);
-    
-        // Formata a data com hifens
-        const dataFormatada = `${ano}-${mes}-${dia}`;
-    
-        return dataFormatada;
-      } else {
-        console.error("Formato de data inválido. Use o formato 21062004.");
-        return null;
-      }
-    }
-
     const handleCadastrar = () => {
 
       if (!profileImage) {
         console.error('Selecione uma imagem de perfil antes de cadastrar.');
         return;
       }
-
       const formData = new FormData();
 
       if (profileImage) {
-
-
-      //console.log("URI da imagem: " + profileImage.assets[0].uri)//obj.assets[0].uri
-      
-      let imageName = profileImage.assets[0].uri.substring(profileImage.assets[0].uri.lastIndexOf('/') + 1, profileImage.assets[0].uri.length);
-      let extension = imageName.split('.')[1];
-      
-
-        formData.append('foto', {
-          uri: profileImage.assets[0].uri,
-          type: 'image/' + extension,
-          name: imageName,
+        formData.append('profileImage', {
+          uri: profileImage.uri,
+          type: 'image/jpeg',
+          name: 'profileImage.jpg',
         });
       }
-  
+      
+      console.log(formData.uri)
+
       Object.keys(dadosFuncionario).forEach((key) => {
         formData.append(key, dadosFuncionario[key]);
       });
 
       const id = (idSaved);
-
-      console.log("mytohen: " + tokenSaved.myToken)
 
         fetch('http://192.168.0.109:8080/funcionarios', {
           method: 'POST',
@@ -124,22 +100,13 @@ const Cadastro = () => {
           },
           body: formData,
         })
-        .then((response) => {
-
-          console.log("formData: " + JSON.stringify(formData));
-          
-          if (!response.ok) {
-            // Se a resposta não estiver OK, lança um erro com a mensagem de resposta
-            throw new Error(`Erro na requisição: ${response.statusText}`);
-          }
-          return response.json();
-        })
+          .then((response) => response.json())
           .then((data) => {
             console.log('Funcionário cadastrado com sucesso:', data);
             resetForm();
           })
           .catch((error) => {
-            console.error('Erro ao cadastrar funcionário:', error.message);
+            console.error('Erro ao cadastrar funcionário:', error);
           });
           setProfileImage(null);
           [idSaved, tokenSaved.myToken]};
@@ -151,10 +118,10 @@ const Cadastro = () => {
           allowsEditing: true,
           aspect: [1, 1],
           quality: 1,
-          base64: false
         });
     
-        console.log('URI da imagem selecionada:', result.assets[0].uri);
+        
+  console.log('URI da imagem selecionada:', result);
         if (!result.canceled) {
           setProfileImage(result);
         }
@@ -163,7 +130,7 @@ const Cadastro = () => {
     const resetForm = () => {
       
       setDadosFuncionario({
-        nomeCompleto: '',
+        nome: '',
         email: '',
         cpf: '',
         apelido: '',
@@ -171,8 +138,9 @@ const Cadastro = () => {
         dataNascimento: '',
         login: '',
         senha: '',
-        idCargo: '',
-        cargaHorariaMensal: '',
+        empresa: '',
+        cargo: '',
+        chm: '',
         cargaHorariaDiaria: '',
         horarioEntrada: '',
         horarioIntervaloEntrada: '',
@@ -208,8 +176,8 @@ const Cadastro = () => {
 
       <TextInput
             placeholder="Nome"
-            value={dadosFuncionario.nomeCompleto}
-            onChangeText={text => setDadosFuncionario({ ...dadosFuncionario, nomeCompleto: text })}
+            value={dadosFuncionario.nome}
+            onChangeText={text => setDadosFuncionario({ ...dadosFuncionario, nome: text })}
             style={styles.input}
           />
 
@@ -275,7 +243,7 @@ const Cadastro = () => {
                 placeholder="   DD/MM/AAAA"
                 keyboardType='numeric'
                 value={dadosFuncionario.dataNascimento}
-                onChangeText={(text) => setDadosFuncionario({ ...dadosFuncionario, dataNascimento: formatarData(text) })}
+                onChangeText={(text) => setDadosFuncionario({ ...dadosFuncionario, dataNascimento: text })}
                 //editable={isEditMode}
                 style={styles.input}
               />
@@ -323,15 +291,15 @@ const Cadastro = () => {
 
       <TextInput
         placeholder="   Cargo"
-        value={dadosFuncionario.idCargo}
-        onChangeText={(text) => setDadosFuncionario({ ...dadosFuncionario, idCargo: text })}
+        value={dadosFuncionario.cargo}
+        onChangeText={(text) => setDadosFuncionario({ ...dadosFuncionario, cargo: text })}
         //editable={isEditMode}
         style={styles.input}
       />
        <TextInput
         placeholder="   Cargo Horaria Mensal"
-        value={dadosFuncionario.cargaHorariaMensal.toString()}
-        onChangeText={(text) => setDadosFuncionario({ ...dadosFuncionario, cargaHorariaMensal: text })}
+        value={dadosFuncionario.chm.toString()}
+        onChangeText={(text) => setDadosFuncionario({ ...dadosFuncionario, chm: text })}
         //editable={isEditMode}
         style={styles.input}
       />
