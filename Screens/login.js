@@ -17,7 +17,7 @@ export default function Login() {
 
   const Entrar = async () => {
     try {
-      const response = await fetch(`http://192.168.0.109:8080/auth/login`, {
+      const response = await fetch(`http://10.5.81.153:8080/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,10 +37,12 @@ export default function Login() {
 
         //Tela principal Funcionario
         navigation.navigate('Principal', { token: data.token });
+        Alert.alert("Login", "\nLogin realizado com sucesso!!!");
 
       } else if(data.role === "ADMIN" && response.ok) {
 
         navigation.navigate('HomeADM', { token: data.token });
+        Alert.alert("Login", "\nLogin realizado com sucesso!!!");
 
       } else {
         Alert.alert('Erro', data.message || 'Erro ao fazer login. Tente novamente mais tarde.');

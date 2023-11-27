@@ -115,7 +115,7 @@ const Cadastro = () => {
 
       console.log("mytohen: " + tokenSaved.myToken)
 
-        fetch('http://192.168.0.109:8080/funcionarios', {
+        fetch('http://10.5.81.153:8080/funcionarios', {
           method: 'POST',
           headers: {
             Accept: 'application/json',

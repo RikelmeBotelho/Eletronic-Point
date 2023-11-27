@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 //import { useNavigation, NavigationContainer } from '@react-navigation/native';
-import { useNavigationr} from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 
@@ -22,9 +22,6 @@ export default function RelatorioADM() {
   };
   const Config = () => {
     navigation.navigate('config');
-  };
-  const funcion = () => {
-    navigation.navigate('funcion');
   };
 
   return (
@@ -48,10 +45,6 @@ export default function RelatorioADM() {
 
         <TouchableOpacity style={styles.bottomButton} onPress={Config}>
           <Ionicons name="person-circle-outline" size={45} color="white" style={styles.bottomButtonText}/>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.bottomButton} onPress={funcion}>
-          <Ionicons name="people-outline" size={45} color="white" style={styles.bottomButtonText}/>
         </TouchableOpacity>
         
       </View>

@@ -48,7 +48,7 @@ export default function Config() {
     const id = (idSaved);
 
     //URL da API
-    fetch(`http://192.168.1.8:8080/funcionarios/${id.myId}`, {
+    fetch(`http://10.5.81.153:8080/funcionarios/${id.myId}`, {
 
     method: 'GET',
     headers: {
@@ -83,7 +83,7 @@ export default function Config() {
       telefone,
     };
 
-    fetch(`http://192.168.1.8:8080/funcionarios/profile/basic-data/${id.myId}`, {
+    fetch(`http://10.5.81.153:8080/funcionarios/profile/basic-data/${id.myId}`, {
       
       method: 'PUT',
       headers: {
@@ -136,9 +136,6 @@ export default function Config() {
     
     const funcion = () => {
     navigation.navigate('funcion');
-    };
-    const Cadastro = () => {
-      navigation.navigate('Cadastro');
     };
 
     return (
@@ -258,11 +255,7 @@ export default function Config() {
                 <TouchableOpacity style={styles.bottomButton} onPress={Config}>
                 <Ionicons name="person-circle-outline" size={45} color="orange" style={styles.bottomButtonText}/>
                 </TouchableOpacity>
-
-                <TouchableOpacity style={styles.bottomButton} onPress={Cadastro}>
-                  <Ionicons name="add-circle-sharp" size={45} color="orange" style={styles.bottomButtonText}/>
-                </TouchableOpacity>
-            
+                
                 </View>
 
         </View>

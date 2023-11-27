@@ -51,7 +51,7 @@ const FuncionScreen = () => {
       const id = (idSaved);
 
     //URL da API
-    fetch(`http://192.168.0.109:8080/funcionarios/${id.myId}`, {
+    fetch(`http://10.5.81.153:8080/funcionarios/${id.myId}`, {
 
       method: 'GET',
       headers: {
@@ -79,7 +79,7 @@ const FuncionScreen = () => {
       try {
         const id = (idSaved);
 
-        const response = await fetch(`http://192.168.0.109:8080/funcionarios/profile/basic-data/${id.myId}`, {
+        const response = await fetch(`http://10.5.81.153:8080/funcionarios/profile/basic-data/${id.myId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ const FuncionScreen = () => {
   const Cadastro = () => {
     navigation.navigate('Cadastro');
   };
-    fetch(`http://192.168.0.109:8080/funcionarios/${endpoint}/${id.myId}`, {
+    fetch(`http://10.5.81.153:8080/funcionarios/${endpoint}/${id.myId}`, {
         method: method,
         headers: {
             'Content-Type': 'application/json',

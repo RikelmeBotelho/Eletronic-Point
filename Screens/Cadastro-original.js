@@ -91,7 +91,7 @@ const Cadastro = () => {
 
       const id = (idSaved);
 
-        fetch('http://192.168.0.109:8080/funcionarios', {
+        fetch('http://192.168.1.8:8080/funcionarios', {
           method: 'POST',
           headers: {
             Accept: 'application/json',

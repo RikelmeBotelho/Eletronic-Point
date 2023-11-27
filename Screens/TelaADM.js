@@ -19,7 +19,7 @@ const HomeScreen = () => {
       const fetchEmployees = async () => {
         try {
             
-          const response = await fetch('http://192.168.0.106:8080/funcionarios', {
+          const response = await fetch('http://192.168.1.8:8080/funcionarios', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
